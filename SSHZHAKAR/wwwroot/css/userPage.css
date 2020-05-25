@@ -1,0 +1,208 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  background-color: #2b3d50;
+  align-items: center;
+}
+
+.container {
+  width: 90%;
+  height: calc(100% - 50px);
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-items: center;
+}
+.container .add-connection-button-container {
+  opacity: 1;
+  transition: opacity 1s;
+  display: flex;
+  justify-content: center;
+  border: 2px solid black;
+  border-radius: 25px;
+  height: 350px;
+  width: 250px;
+  align-items: center;
+}
+.container .add-connection-button-container .add-connection-button img {
+  height: 60px;
+  width: 60px;
+  transition: all 0.3s;
+}
+.container .add-connection-button-container:hover {
+  background-color: rgba(230, 230, 230, 0.05);
+  cursor: default;
+}
+.container .add-connection-button-container:hover .add-connection-button img {
+  height: 70px;
+  width: 70px;
+}
+.container .terminal-link-container {
+  opacity: 1;
+  transition: opacity 1s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  justify-content: center;
+  border: 2px solid black;
+  border-radius: 25px;
+  height: 350px;
+  width: 250px;
+  align-items: center;
+  margin-right: 20px;
+}
+.container .terminal-link-container .terminal-link-ico {
+  margin-bottom: 20px;
+}
+.container .terminal-link-container .terminal-link-ico img {
+  height: 60px;
+  width: 60px;
+  transition: all 0.3s;
+}
+.container .terminal-link-container .terminal-link-title {
+  font-weight: 500;
+  font-size: 16pt;
+  padding-top: 10px;
+}
+.container .terminal-link-container .provider-title {
+  margin-bottom: 20px;
+  font-size: 14pt;
+  font-weight: 600;
+}
+.container .terminal-link-container .terminal-link-edit-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 20%;
+}
+.container .terminal-link-container .terminal-link-edit-button img {
+  height: 25px;
+  width: 25px;
+  transition: all 0.14s;
+}
+.container .terminal-link-container .terminal-link-edit-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  justify-content: center;
+  align-items: center;
+}
+.container .terminal-link-container .terminal-link-edit-button:hover img {
+  height: 30px;
+  width: 30px;
+}
+.container .terminal-link-container:hover {
+  background-color: rgba(230, 230, 230, 0.05);
+  cursor: default;
+}
+.container .terminal-link-container:hover .terminal-link-ico img {
+  height: 70px;
+  width: 70px;
+}
+
+.add-console-table {
+  position: absolute;
+  border: 3px solid black;
+  height: 450px;
+  width: 400px;
+  display: none;
+  opacity: 0;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  background-color: #415162;
+  transition: all 0.3s;
+  z-index: 2;
+}
+.add-console-table .add-connection-button-container-title {
+  font-size: 16pt;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+.add-console-table .add-console-table-container {
+  height: 85%;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+.add-console-table .add-console-table-container button {
+  border: none;
+  border-radius: 5px;
+  height: 35px;
+  transition: all 0.4s;
+}
+.add-console-table .add-console-table-container button:hover {
+  background-color: rgba(230, 120, 210, 0.9);
+}
+.add-console-table .add-console-table-container div {
+  margin-bottom: 20px;
+}
+.add-console-table .add-console-table-container div:nth-child(3) {
+  display: flex;
+  justify-content: center;
+}
+.add-console-table .add-console-table-container input[type=text] {
+  border: none;
+  height: 20px;
+  border-radius: 2px;
+  margin-left: 10px;
+  padding-left: 3px;
+}
+.add-console-table .add-console-table-container input[type=checkbox] {
+  border: none;
+  height: 20px;
+  border-radius: 2px;
+  margin-left: 10px;
+}
+.add-console-table .add-console-table-container .pre-login-form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  opacity: 0;
+  transition: all 0.4s ease-in-out;
+}
+.add-console-table .add-console-table-container .pre-login-form div {
+  margin-bottom: 20px;
+  text-align: right;
+}
+.add-console-table .add-console-table-container .pre-login-form div:nth-child(3) {
+  display: block;
+  text-align: right;
+}
+
+.close-add-console-table {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+}
+.close-add-console-table img {
+  height: 23px;
+  width: 23px;
+  transition: all 0.11s;
+}
+.close-add-console-table:hover img {
+  height: 28px;
+  width: 28px;
+}
+
+/*# sourceMappingURL=userPage.css.map */

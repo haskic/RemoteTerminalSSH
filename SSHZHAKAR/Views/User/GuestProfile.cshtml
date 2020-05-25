@@ -1,0 +1,90 @@
+﻿
+@{
+    Layout = "Header";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GuestProfile</title>
+    <link rel="stylesheet" href="~/css/guestProfile.css"/>
+</head>
+<body>
+    <div class="container">
+        <div class="img-col">
+            <div class="img-title">Photo</div>
+            <div class="img-container">
+                <img src="~/static/default_user.png" id="profile_photo" />
+            </div>
+            <button onclick="giveAccessButtonClick(event)">Give Access</button>
+
+
+        </div>
+
+        <div class="give-access-container">
+            <div class="close-give-access-container" onclick="closeTerminalContainerButton()">
+                <img src="~/icons/close-ico.png" />
+            </div>
+            <div class="give-access-container-title">
+                My Terminals
+            </div>
+            <div class="terminals-container">
+                @*<div class="terminal-box" onclick="terminalClick(event)">
+                    <img src="~/icons/desktop-ico.png" class="close-give-access-container-image"/>
+                    <div class="terminal-title">
+                        Terminal-1
+                    </div>
+                </div>*@
+            </div>
+            
+            <button onclick="acceptButtonClick()">Accept</button>
+            <div class="reponse-acceptButton"></div>
+        </div>
+
+        <div class="info-col">
+            <div class="info-title">User Information</div>
+            <div class="row-container">
+                <div class="info-row">
+                    <div class="info-row-item">
+                        Name:
+                    </div>
+                    <div class="info-row-item" id="name_field">
+                        Name
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-row-item">
+                        LastName:
+                    </div>
+                    <div class="info-row-item" id="lastname_field">
+                        LastName
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-row-item">
+                        Nickname:
+                    </div>
+                    <div class="info-row-item" id="nickname_field">
+                        NickName
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-row-item">
+                        Email:
+                    </div>
+                    <div class="info-row-item" id="email_field">
+                        Email Address
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script defer src="~/js/guestProfile.js"></script>
+
+
+</body>
+</html>

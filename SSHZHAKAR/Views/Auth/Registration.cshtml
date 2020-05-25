@@ -1,0 +1,52 @@
+﻿
+@{
+    Layout = null;
+}
+@model ZModels.RegistrationModel;
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Registration</title>
+    <link rel="stylesheet" href="~/css/registrationPage.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="title">ZHAKAR-SSH</div>
+        <div class="reg-container">
+            <div class="form-container">
+                <div>
+                    Sign Up
+                </div>
+                <form action="/reg" method="post">
+                    <label for="Email">Email</label>
+                    <input autocomplete="off" type="email" name="Email" />
+                    <span asp-validation-for="@Model.Email" ></span>
+                    <label for="Password">Password</label>
+                    <input autocomplete="off" type="password" name="Password" />
+                    <span asp-validation-for="@Model.Password" ></span>
+                    <label for="PasswordConfirm">Confirm Password</label>
+                    <input autocomplete="off" type="password" name="PasswordConfirm" />
+                    <span asp-validation-for="@Model.PasswordConfirm" ></span>
+                    <label for="Name">Name</label>
+                    <input autocomplete="off" type="text" name="Name" />
+                    <span asp-validation-for="@Model.Name" ></span>
+                    <label for="LastName">LastName</label>
+                    <input autocomplete="off" type="text" name="LastName" />
+                    <span asp-validation-for="@Model.LastName" ></span>
+                    <label for="NickName">Nickname</label>
+                    <input autocomplete="off" type="text" name="NickName" />
+                    <span asp-validation-for="@Model.NickName" ></span>
+                    <button type="submit">Sign Up</button>
+                    <p>Have account?<a href="/login">Just login!</a></p>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

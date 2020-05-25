@@ -1,0 +1,49 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ZHAKAR-SSH</title>
+    <link rel="stylesheet" href="~/css/header.css" />
+    <script defer src="~/js/header.js"></script>
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="header-title">
+            ZHAKAR-SSH
+        </div>
+        <div class="search-container">
+            <input type="text" id="search" autocomplete="off" placeholder="Search users..." oninput="searchChange(event)"  onfocus="searchChange(event)"/>
+            <img src="~/icons/search-ico.png" />
+            <div class="search-result-container">
+                
+
+            </div>
+        </div>
+        <div class="header-profile" onclick="profileClick(event)">
+            <div class="header-profile-username">
+            </div>
+            <div class="header-profile-img-container">
+                <img src="~/icons/user-ico.png" id="header-photo"/>
+            </div>
+
+        </div>
+    </div>
+    
+    @RenderBody();
+    <div class="profile-menu">
+        <ul>
+            <li onclick="location.href='/user/profile'">My Profile</li>
+            <li onclick="location.href='/user'">My Terminals</li>
+            <li onclick="location.href='/logout'">Logout</li>
+        </ul>
+    </div>
+</body>
+</html>

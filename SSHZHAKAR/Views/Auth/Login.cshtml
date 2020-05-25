@@ -1,0 +1,42 @@
+﻿
+@{
+    Layout = null;
+}
+@model ZModels.LoginModel;
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link rel="stylesheet" href="~/css/loginPage.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="title">ZHAKAR-SSH</div>
+
+        <div class="login-container">
+            <div class="form-container">
+                <div>
+                    Sign In
+                </div>
+                <form action="/login" method="post">
+
+                    <label for="Email">Login</label>
+                    <input type="text" name="Email" />
+                    <span asp-validation-for="@Model.Email"></span>
+
+                    <label for="Password">Password</label>
+                    <input type="password" name="Password" />
+                    <span asp-validation-for="@Model.Password"></span>
+
+                    <button type="submit">Sign In</button>
+                    <p>Don't have account?<a href="/reg">Create it!</a></p>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

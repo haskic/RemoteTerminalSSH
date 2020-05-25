@@ -1,0 +1,83 @@
+﻿* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(43, 61, 80);
+}
+
+.container {
+    height: 100%;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    padding-top: 100px;
+}
+
+.console-container {
+    width: 80%;
+}
+
+.top-border {
+    background-color: rgba(68, 65, 60,.9);
+    min-height: 35px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(255,255,255);
+}
+
+.console-box {
+    background-color: rgb(42, 10, 31);
+    width: 100%;
+    min-height: 450px;
+    max-height: 450px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+.console-box::-webkit-scrollbar {
+    display: none;
+}
+.console-line {
+    width: 100%;
+    display: flex;
+    word-wrap: break-word;
+    position: relative;
+}
+
+.static-console {
+    padding: 5px;
+    color: rgb(0, 255, 0);
+    font-size: 11pt;
+    width: 260px;
+    position: absolute;
+}
+
+.editable-command {
+    width: 100%;
+    text-decoration: none;
+    word-wrap: break-word;
+    text-indent: 14.4em;
+    text-align: auto;
+    outline: none;
+    padding: 5px;
+    color: rgb(255,255,255);
+    line-height: 1em;
+}
+.response-line{
+    color: white;
+    width: 80%;
+    margin-left: 20px;
+}

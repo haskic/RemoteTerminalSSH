@@ -1,0 +1,110 @@
+﻿
+@{
+    Layout = "Header";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link rel="stylesheet" href="~/css/userPage.css" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+</head>
+<script type='text/javascript' id="__bs_script__">
+    //<![CDATA[
+    document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.2.11.1.js'><\/script>".replace("HOST", location.hostname));//]]>
+</script>
+<body >
+    
+    <div class="container">
+        <div class="add-connection-button-container" onclick="openAddMenu(event)">
+            <div class="add-connection-button">
+                <img src="~/icons/add-ico.png" />
+            </div>
+        </div>
+        <div class="add-console-table">
+            <div class="close-add-console-table">
+                <img src="~/icons/close-ico.png" onclick="closeAddMenu(event)" />
+            </div>
+            <div class="add-console-table-container">
+                <div class="add-connection-button-container-title">
+                    Add Terminal
+                </div>
+                <div>
+                    <label for="input-console-name">Terminal Name</label>
+                    <input type="text" name="input-console-name" id="terminal-name-input" />
+                </div>
+                <div>
+
+                    <label for="checkbox-prelogin">Pre-login</label>
+                    <input type="checkbox" name="checkbox-prelogin" id="prelogin-id" />
+                </div>
+                <div class="pre-login-form">
+                    <div>
+                        <label for="input-console-ip">IP</label>
+                        <input type="text" name="input-console-ip" id="remote-desktop-ip" />
+                    </div>
+                    <div>
+                        <label for="input-console-login">Login</label>
+                        <input type="text" name="input-console-login" id="remote-desktop-username" />
+                    </div>
+                    <div>
+                        <label for="input-console-password">Password</label>
+                        <input type="text" name="input-console-password" id="remote-desktop-password" />
+                    </div>
+                </div>
+                <button onclick="addTerminalButton(event)">Add</button>
+            </div>
+
+        </div>
+
+
+
+        <div class="add-console-table" id="edit-console-table">
+            <div class="close-add-console-table">
+                <img src="~/icons/close-ico.png" onclick="closeEditMenu(event)" />
+            </div>
+            <div class="add-console-table-container">
+                <div class="add-connection-button-container-title">
+                    Edit Terminal
+                </div>
+                <div>
+                    <label for="input-console-name">Terminal Name</label>
+                    <input type="text" name="input-console-name" id="terminal-name-input" />
+                </div>
+                <div>
+
+                    <label for="checkbox-prelogin">Pre-login</label>
+                    <input type="checkbox" name="checkbox-prelogin" id="prelogin-id"  onclick="changeCheckBoxEditBox(event)"/>
+                </div>
+                <div class="pre-login-form">
+                    <div>
+                        <label for="input-console-ip">IP</label>
+                        <input type="text" name="input-console-ip" id="remote-desktop-ip" />
+                    </div>
+                    <div>
+                        <label for="input-console-login">Login</label>
+                        <input type="text" name="input-console-login" id="remote-desktop-username" />
+                    </div>
+                    <div>
+                        <label for="input-console-password">Password</label>
+                        <input type="text" name="input-console-password" id="remote-desktop-password" />
+                    </div>
+                </div>
+                <button onclick="saveTerminalButton(event)">Save</button>
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+    
+    <script defer src="~/js/user.js"></script>
+
+</body>
+
+</html>

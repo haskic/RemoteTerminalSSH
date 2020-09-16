@@ -13,7 +13,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity.UI;
-
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.CodeAnalysis.Options;
 
 namespace SSHZHAKAR
 {
@@ -61,10 +65,40 @@ namespace SSHZHAKAR
                 config.Cookie.Name = "Identity.Cookie";
                 config.LoginPath = "/login";
             });
+            services.AddLocalization(opt =>
+            {
+                opt.ResourcesPath = "Resources";
+            });
+
+
             services.AddControllersWithViews();
             services.AddDistributedMemoryCache();
             services.AddSession();
+            services.AddMvc()
+                .AddViewLocalization(opt => { opt.ResourcesPath = "Resources"; })
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+
+            services.Configure<RequestLocalizationOptions>(opts =>
+            {
+
+                var supportedCultures = new List<CultureInfo>
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("ru"),
+
+                };
+                opts.DefaultRequestCulture = new RequestCulture("en");
+
+                opts.SupportedCultures = supportedCultures;
+                opts.SupportedUICultures = supportedCultures;
+            });
+
         }
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Program> logger)
@@ -82,7 +116,20 @@ namespace SSHZHAKAR
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            
+
+            var options = app.ApplicationServices.GetService<Option<RequestLocalizationOptions>>();
+            var supportedCultures = new List<CultureInfo>
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("ru"),
+
+                };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("ru"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

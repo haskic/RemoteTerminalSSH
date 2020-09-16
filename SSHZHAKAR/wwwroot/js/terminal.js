@@ -6,7 +6,7 @@ var firstWordStatus = true; // it should be update to initial state when time-ou
 var AjaxPort = 5001;
 let myId;
 let hubConnectionTerminal;
-
+let lastCommandResult;
 
 function getTerminalName() {
     let terminalName = window.location.href.match("[a-zA-Z0-9]*$");
@@ -28,6 +28,8 @@ async function startConnection() {
 
     hubConnectionTerminal.on("GetResponseCommand", function (textResponse, responseCmd) {
         console.log("RESPONSE FROM TERMINAL= " + responseCmd);
+        lastCommandResult = responseCmd;
+
         addResponseToConsole(responseCmd);
     });
 

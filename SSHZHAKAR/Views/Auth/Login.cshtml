@@ -1,8 +1,18 @@
 ﻿
 @{
-    Layout = null;
+    Layout = "SHeader";
+
 }
 @model ZModels.LoginModel;
+
+
+@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+
+@inject IViewLocalizer Localizer
+
 
 <!DOCTYPE html>
 
@@ -19,20 +29,20 @@
         <div class="login-container">
             <div class="form-container">
                 <div>
-                    Sign In
+                    @Localizer["SignIn"]
                 </div>
                 <form action="/login" method="post">
 
-                    <label for="Email">Login</label>
+                    <label for="Email">@Localizer["Login"]</label>
                     <input type="text" name="Email" />
                     <span asp-validation-for="@Model.Email"></span>
 
-                    <label for="Password">Password</label>
+                    <label for="Password">@Localizer["Password"]</label>
                     <input type="password" name="Password" />
                     <span asp-validation-for="@Model.Password"></span>
 
-                    <button type="submit">Sign In</button>
-                    <p>Don't have account?<a href="/reg">Create it!</a></p>
+                    <button type="submit">@Localizer["SignIn"]</button>
+                    <p>@Localizer["DontHave"]<a href="/reg">@Localizer["CreateIt"]</a></p>
                 </form>
 
             </div>

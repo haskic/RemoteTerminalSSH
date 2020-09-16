@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackEnd", "BackEnd\BackEnd.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSH_USER_CORE", "SSH_USER_CORE\SSH_USER_CORE.csproj", "{B9696B6E-7064-4951-8689-9830B17414BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZModels", "ZModels\ZModels.csproj", "{3C558ED2-F658-475C-BE68-5F674F33E87B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZModels", "ZModels\ZModels.csproj", "{3C558ED2-F658-475C-BE68-5F674F33E87B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSHZhakar.Tests", "SSHZhakar.Tests\SSHZhakar.Tests.csproj", "{DDD8245F-5584-4BFB-89B5-258F01BADC09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{3C558ED2-F658-475C-BE68-5F674F33E87B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C558ED2-F658-475C-BE68-5F674F33E87B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C558ED2-F658-475C-BE68-5F674F33E87B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDD8245F-5584-4BFB-89B5-258F01BADC09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDD8245F-5584-4BFB-89B5-258F01BADC09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDD8245F-5584-4BFB-89B5-258F01BADC09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDD8245F-5584-4BFB-89B5-258F01BADC09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

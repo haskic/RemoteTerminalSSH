@@ -12,8 +12,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using SSHZHAKAR;
+using SSHZHAKAR.Controllers;
 using ZModels;
 namespace FrontEnd.Controllers
 {
@@ -21,45 +23,37 @@ namespace FrontEnd.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IStringLocalizer<AuthController> _localizer;
         private UserDbContext db;
         public ILogger<Program> Logger { get; }
 
         public AuthController(
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager, ILogger<Program> logger, UserDbContext context)
+            SignInManager<IdentityUser> signInManager, ILogger<Program> logger,
+            UserDbContext context, IStringLocalizer<AuthController> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             Logger = logger;
             db = context;
+            _localizer = localizer;
         }
         [Route("/reg")]
-        public async Task<IActionResult> RegPage()
+        public IActionResult RegPage()
         {
-           
+            ViewData["Message"] = _localizer["Registration"];
+            ViewBag.header = false;
             return View("Registration");
-            
-
-
         }
 
         [AllowAnonymous]
         [Route("/login")]
         public IActionResult LoginPage()
         {
-            var zhakarClaims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Name, "Alexander"),
-                new Claim(ClaimTypes.Email, "Alexander@gmail.com"),
-                new Claim("Zhakar says", "Volk vse vidit")
-            };
-
-            var zhakarIdentity = new ClaimsIdentity(zhakarClaims, "Zhakar Identity");
-            var userPrincipal = new ClaimsPrincipal(new[] { zhakarIdentity });
-            HttpContext.SignInAsync(userPrincipal);
+            ViewBag.header = false;
             return View("Login");
         }
-        
+
         [HttpPost]
         [Route("/login")]
         public async Task<IActionResult> LoginPage(LoginModel loginModel)
@@ -67,18 +61,12 @@ namespace FrontEnd.Controllers
             if (!ModelState.IsValid)
             {
                 return View("Login");
-
             }
             Logger.LogDebug("LOGIN = " + loginModel.Email);
-            Logger.LogDebug("PASSWORD = " + loginModel.Password);
-
             var user = await _userManager.FindByEmailAsync(loginModel.Email);
             if (user != null)
             {
-                Logger.LogDebug("User was founded");
-                
-
-                var signInResult = await _signInManager.PasswordSignInAsync(user, loginModel.Password,false,false); 
+                var signInResult = await _signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
                 if (signInResult.Succeeded)
                 {
                     HttpContext.Session.SetString("username", loginModel.Email);
@@ -93,37 +81,23 @@ namespace FrontEnd.Controllers
         [Route("/reg")]
         public async Task<IActionResult> RegPage(RegistrationModel regModel)
         {
-            if (!ModelState.IsValid) { 
+            if (!ModelState.IsValid)
+            {
                 return View("Registration");
 
             }
-            Logger.LogCritical("REG IN ");
-            Logger.LogCritical(regModel.Email);
-            Logger.LogCritical(regModel.Password);
-            Logger.LogCritical(regModel.PasswordConfirm);
-            Logger.LogCritical(regModel.Name);
-            Logger.LogCritical(regModel.LastName);
-
-           
             var user = new IdentityUser
             {
                 Email = regModel.Email,
                 UserName = regModel.NickName
-
             };
-            var result = await _userManager.CreateAsync(user,regModel.Password);
-            
+            var result = await _userManager.CreateAsync(user, regModel.Password);
+
             if (result.Succeeded)
             {
-                Logger.LogInformation("REG SUCCESS");
-
-                
-
-
                 var signInResult = await _signInManager.PasswordSignInAsync(user, regModel.Password, false, false);
                 if (signInResult.Succeeded)
                 {
-                    Logger.LogWarning("ID = " + user.Id);
                     UserInfo userInfo = new UserInfo()
                     {
                         Name = regModel.Name,
@@ -132,10 +106,8 @@ namespace FrontEnd.Controllers
                         Email = regModel.Email,
                         UserId = user.Id
                     };
-            db.UserInfos.Add(userInfo);
-            await db.SaveChangesAsync();
-
-
+                    db.UserInfos.Add(userInfo);
+                    await db.SaveChangesAsync();
                     return RedirectToAction("Index", "User");
                 }
 
@@ -145,10 +117,8 @@ namespace FrontEnd.Controllers
         [Route("/logout")]
         public async Task<IActionResult> LogOut()
         {
-
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
-
         }
     }
 }

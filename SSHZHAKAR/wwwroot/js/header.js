@@ -4,8 +4,10 @@ const hubConnection = new signalR.HubConnectionBuilder()
     .withUrl("http://localhost:5002/search")
     .build();
 
-const lastSearchResult = [];
+var lastSearchResult = [];
+let myId = null;
 
+let selectedLanguage = null;
 hubConnection.on("Send", function (data) {
 
 
@@ -14,6 +16,7 @@ hubConnection.on("Send", function (data) {
 
 
 });
+
 
 hubConnection.on("GetSearchResult", function (data) {
 
@@ -27,9 +30,11 @@ hubConnection.on("GetSearchResult", function (data) {
 
     }
 
-    //console.log("DATA" + data);
-    //console.log("LastDaTA" + lastSearchResult[0]);
-    lastSearchResult[0] = data;
+    console.log("DATA" + data);
+    console.log("LastDaTA" + lastSearchResult[0]);
+    lastSearchResult[0] = JSON.parse(data);
+    console.log("ZHAKAR");
+    console.log(lastSearchResult[0]);
 
 
 });
@@ -43,7 +48,16 @@ function addItemResultToSearch(searchResultObj) {
     let searchResultContainer = document.getElementsByClassName("search-result-container")[0];
     searchResultObj.forEach(value => {
         let el = document.createElement("a");
-        el.href = "/user/" + value.UserId;
+        console.log("WHY === ")
+        console.log(value.UserId);
+        console.log(myId);
+
+        if (value.UserId == myId) {
+            el.href = "/user/profile";
+        }
+        else {
+            el.href = "/user/" + value.UserId;
+        }
         let subEl = document.createElement('div');
         subEl.className = "result-row";
         subEl.innerHTML = "<span>@</span>" + value.NickName;
@@ -66,6 +80,7 @@ function profileClick() {
             profileMenu.element.style.display = 'none';
         }, 300)
         profileMenu.isShow = false;
+        return true;
     }
     else if (!profileMenu.isShow) {
         profileMenu.element.style.display = 'flex';
@@ -74,6 +89,7 @@ function profileClick() {
         }, 50)
         profileMenu.isShow = true;
         console.log("ZHAKAR ONE")
+        return false;
     }
 }
 function getNameFromServer() {
@@ -90,7 +106,7 @@ function getNameFromServer() {
 
             console.log(element);
             element.innerText = commits.name;
-
+            myId = commits.userId;
         });
 }
 
@@ -133,6 +149,27 @@ function searchFocusOff() {
     let searchResultContainer = document.getElementsByClassName("search-result-container")[0];
     lastSearchResult[0] = "";
     searchResultContainer.innerHTML = "";
+}
+
+
+
+function process() {
+    document.getElementById("hidden").value = document.getElementById("content").innerHTML;
+    console.log("SUBMITTING PROCCESS");
+
+  return true;
+}
+
+function submitButtonClick(buttonNumber) {
+    console.log("SUBMITBUTTON CLICK");
+    selectedLanguage = "RU"
+}
+
+function focusout() {
+    let searchResultContainer = document.getElementsByClassName("search-result-container")[0];
+    lastSearchResult[0] = "";
+    searchResultContainer.innerHTML = "";
+
 }
 getNameFromServer();
 getPhotoInfo();

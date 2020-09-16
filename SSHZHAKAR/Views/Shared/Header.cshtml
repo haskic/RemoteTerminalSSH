@@ -3,6 +3,22 @@
     Layout = null;
 }
 
+@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+@inject IViewLocalizer Localizer
+@inject IOptions<RequestLocalizationOptions> LocOptions
+
+@{
+    // получаем сервис IRequestCultureFeature
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    // получаем список поддерживаемых культур
+    var cultureItems = LocOptions.Value.SupportedUICultures
+        .Select(c => new SelectListItem { Value = c.Name, Text = c.NativeName })
+        .ToList();
+}
+
 
 <!DOCTYPE html>
 
@@ -16,14 +32,29 @@
 </head>
 <body>
     <div class="header">
-        <div class="header-title">
-            ZHAKAR-SSH
+        <div class="title-localization-container">
+            <div class="localization-block" id="localization-button">
+                <form asp-controller="User" asp-action="SetLanguage" style="margin-top:20px;"
+                      asp-route-returnUrl="@Context.Request.Path"
+                      method="post" class="form-horizontal">
+                    <select id="localization-select" name="culture" onchange="this.form.submit();"
+                            asp-for="@requestCulture.RequestCulture.UICulture.Name"
+                            >
+                        <option>en</option>
+                        <option>ru</option>
+                    </select>
+                </form>
+            </div>
+            <div class="header-title">
+                ZHAKAR-SSH 
+            </div>
         </div>
+
         <div class="search-container">
-            <input type="text" id="search" autocomplete="off" placeholder="Search users..." oninput="searchChange(event)"  onfocus="searchChange(event)"/>
+            <input type="text" id="search" autocomplete="off" placeholder="@Localizer["SearchString"]" oninput="searchChange(event)" onfocus="searchChange(event)" onfocusout="focusout()"/>
             <img src="~/icons/search-ico.png" />
             <div class="search-result-container">
-                
+
 
             </div>
         </div>
@@ -31,19 +62,26 @@
             <div class="header-profile-username">
             </div>
             <div class="header-profile-img-container">
-                <img src="~/icons/user-ico.png" id="header-photo"/>
+                <img src="~/icons/user-ico.png" id="header-photo" />
             </div>
 
         </div>
     </div>
-    
-    @RenderBody();
+
+    @RenderBody();  
     <div class="profile-menu">
         <ul>
-            <li onclick="location.href='/user/profile'">My Profile</li>
-            <li onclick="location.href='/user'">My Terminals</li>
-            <li onclick="location.href='/logout'">Logout</li>
+            <li onclick="location.href='/user/profile'">@Localizer["MyProfile"]</li>
+            <li onclick="location.href='/user'">@Localizer["MyTerminals"]</li>
+            <li onclick="location.href='/logout'">@Localizer["Logout"]</li>
         </ul>
     </div>
+    @*<div class="localization-menu">
+        <ul>
+            <a href="/user/setlanguage/en"><li>EN</li></a>
+            <a href="/user/setlanguage/ru"><li>RU</li></a>
+        </ul>
+
+    </div>*@
 </body>
 </html>

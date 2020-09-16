@@ -2,6 +2,12 @@
 @{
     Layout = "Header";
 }
+@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+@inject IViewLocalizer Localizer
+
 
 <!DOCTYPE html>
 
@@ -9,34 +15,36 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Proflile</title>
+
     <link rel="stylesheet" href="~/css/userProfile.css" />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300&display=swap" rel="stylesheet">
     <script src="~/lib/jquery/dist/jquery.js"></script>
+
 </head>
 <body>
     <div class="container">
         <div class="img-col">
-            <div class="img-title">Photo</div>
+            <div class="img-title">@Localizer["PhotoTitle"]</div>
             <div class="img-container">
-                
-                    <img src="~/static/default_user.png" id="profile_photo"/>
-                
+
+                <img src="~/static/default_user.png" id="profile_photo" />
+
             </div>
-            <form >
+            <form>
                 <label for="file-upload" class="custom-file-upload">
-                    <i class="fa fa-cloud-upload"></i> Upload Photo
+                    <i class="fa fa-cloud-upload"></i> @Localizer["UploadButton"]
                 </label>
-                <input id="file-upload" type="file" onchange="fileUpload()"/>
+                <input id="file-upload" type="file" onchange="fileUpload()" />
             </form>
-            <button onclick="editButtonClick(event)">Edit Profile</button>
+            <button onclick="editButtonClick(event)">@Localizer["EditButton"]</button>
 
         </div>
         <div class="info-col">
-            <div class="info-title">User Information</div>
+            <div class="info-title">@Localizer["UserInfo"]</div>
             <div class="row-container">
                 <div class="info-row">
                     <div class="info-row-item">
-                        Name:
+                        @Localizer["Name"]:
                     </div>
                     <div class="info-row-item" id="name_field">
                         Name
@@ -44,7 +52,7 @@
                 </div>
                 <div class="info-row">
                     <div class="info-row-item">
-                        LastName:
+                        @Localizer["LastName"]:
                     </div>
                     <div class="info-row-item" id="lastname_field">
                         LastName
@@ -53,14 +61,14 @@
 
                 <div class="info-row">
                     <div class="info-row-item">
-                        Nickname:
+                        @Localizer["NickName"]:
                     </div>
                     <div class="info-row-item" id="nickname_field">
                         NickName
                     </div>
                 </div>
                 <div class="info-row">
-                    <div class="info-row-item" >
+                    <div class="info-row-item">
                         Email:
                     </div>
                     <div class="info-row-item" id="email_field">
@@ -74,7 +82,7 @@
 
                 <div class="info-row">
                     <div class="info-row-item">
-                        Name:
+                        @Localizer["Name"]:
                     </div>
                     <div class="info-row-item">
                         <input type="text" id="name-input" />
@@ -82,7 +90,7 @@
                 </div>
                 <div class="info-row">
                     <div class="info-row-item">
-                        LastName:
+                        @Localizer["LastName"]:
                     </div>
                     <div class="info-row-item">
                         <input type="text" id="lastname-input" />
@@ -91,7 +99,7 @@
 
                 <div class="info-row">
                     <div class="info-row-item">
-                        Nickname:
+                        @Localizer["NickName"]:
                     </div>
                     <div class="info-row-item">
                         <input type="text" id="nickname-input" />
@@ -108,7 +116,7 @@
                     </div>
                 </div>
                 <div class="info-row">
-                    <button onclick="saveButtonClick()">Save</button>
+                    <button onclick="saveButtonClick()">@Localizer["SaveButton"]</button>
                 </div>
 
 

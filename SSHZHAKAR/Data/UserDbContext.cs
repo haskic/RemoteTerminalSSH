@@ -15,7 +15,7 @@ namespace FrontEnd.Data
             base(options)
         {
     }
-        public DbSet<Desktop> Desktops { get; set; }
+        public DbSet<Terminal> Desktops { get; set; }
         public DbSet<UserInfo> UserInfos { get; set; }
 
 

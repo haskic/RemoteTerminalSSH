@@ -3,6 +3,15 @@
     Layout = "Header";
 }
 
+
+@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+
+@inject IViewLocalizer Localizer
+
+
 <!DOCTYPE html>
 
 <html>
@@ -11,34 +20,38 @@
     <title>Index</title>
     <link rel="stylesheet" href="~/css/userPage.css" />
     <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/userAPI.js"></script>
 </head>
 <script type='text/javascript' id="__bs_script__">
     //<![CDATA[
     document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.2.11.1.js'><\/script>".replace("HOST", location.hostname));//]]>
 </script>
-<body >
-    
+<body>
+
     <div class="container">
         <div class="add-connection-button-container" onclick="openAddMenu(event)">
             <div class="add-connection-button">
                 <img src="~/icons/add-ico.png" />
             </div>
         </div>
+     
         <div class="add-console-table">
             <div class="close-add-console-table">
                 <img src="~/icons/close-ico.png" onclick="closeAddMenu(event)" />
             </div>
             <div class="add-console-table-container">
                 <div class="add-connection-button-container-title">
-                    Add Terminal
+                    @Localizer["AddTerminal"]
                 </div>
                 <div>
-                    <label for="input-console-name">Terminal Name</label>
+                    <label for="input-console-name">@Localizer["TerminalName"]</label>
                     <input type="text" name="input-console-name" id="terminal-name-input" />
+                    <div id="name-error">You have terminal with this name yet</div>
+
                 </div>
                 <div>
 
-                    <label for="checkbox-prelogin">Pre-login</label>
+                    <label for="checkbox-prelogin">@Localizer["PreLogin"]</label>
                     <input type="checkbox" name="checkbox-prelogin" id="prelogin-id" />
                 </div>
                 <div class="pre-login-form">
@@ -47,19 +60,18 @@
                         <input type="text" name="input-console-ip" id="remote-desktop-ip" />
                     </div>
                     <div>
-                        <label for="input-console-login">Login</label>
+                        <label for="input-console-login">@Localizer["Login"]</label>
                         <input type="text" name="input-console-login" id="remote-desktop-username" />
                     </div>
                     <div>
-                        <label for="input-console-password">Password</label>
-                        <input type="text" name="input-console-password" id="remote-desktop-password" />
+                        <label for="input-console-password">@Localizer["Password"]</label>
+                        <input type="password" name="input-console-password" id="remote-desktop-password" />
                     </div>
                 </div>
-                <button onclick="addTerminalButton(event)">Add</button>
+                <button onclick="addTerminalBUTTON(event)">@Localizer["AddButton"]</button>
             </div>
 
         </div>
-
 
 
         <div class="add-console-table" id="edit-console-table">
@@ -77,7 +89,7 @@
                 <div>
 
                     <label for="checkbox-prelogin">Pre-login</label>
-                    <input type="checkbox" name="checkbox-prelogin" id="prelogin-id"  onclick="changeCheckBoxEditBox(event)"/>
+                    <input type="checkbox" name="checkbox-prelogin" id="prelogin-editbox" />
                 </div>
                 <div class="pre-login-form">
                     <div>
@@ -90,10 +102,10 @@
                     </div>
                     <div>
                         <label for="input-console-password">Password</label>
-                        <input type="text" name="input-console-password" id="remote-desktop-password" />
+                        <input type="password" name="input-console-password" id="remote-desktop-password" />
                     </div>
                 </div>
-                <button onclick="saveTerminalButton(event)">Save</button>
+                <button onclick="saveTerminalBUTTON(event)">Save</button>
             </div>
 
         </div>
@@ -102,7 +114,7 @@
 
 
     </div>
-    
+
     <script defer src="~/js/user.js"></script>
 
 </body>

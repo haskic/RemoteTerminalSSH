@@ -17,6 +17,7 @@ using System.Security.Claims;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Localization;
 
 namespace FrontEnd.Controllers
 {
@@ -25,7 +26,7 @@ namespace FrontEnd.Controllers
         private UserDbContext db;
         private readonly UserManager<IdentityUser> _userManager;
         private ILogger Logger;
-        IWebHostEnvironment _appEnvironment;
+        private readonly IWebHostEnvironment _appEnvironment;
         public UserController(UserDbContext context, UserManager<IdentityUser> userManager, ILogger<Program> logger,
             IWebHostEnvironment appEnvironment)
         {
@@ -35,11 +36,22 @@ namespace FrontEnd.Controllers
             this.Logger = logger;
             this._appEnvironment = appEnvironment;
         }
-        // GET: User
+
+        [HttpPost]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            return LocalRedirect(returnUrl);
+        }
+
         [Authorize]
         public ActionResult Index()
         {
-            //ViewBag.username = HttpContext.Session.GetString("username");
             return View();
         }
         [Authorize]
@@ -47,7 +59,7 @@ namespace FrontEnd.Controllers
         public ActionResult Terminal(string userId, string name)
         {
             TerminalMessage message = new TerminalMessage();
-            var result = db.Desktops.Where(v => v.UserId == userId).Where(v=>v.Name == name).FirstOrDefault();
+            var result = db.Desktops.Where(v => v.UserId == userId).Where(v => v.Name == name).FirstOrDefault();
             if (result == null)
             {
                 message.Error = new TerminalErrorModel()
@@ -67,7 +79,7 @@ namespace FrontEnd.Controllers
                 TerminalIp = result.Ip,
                 SuccessText = $"Connection to Terminal :: {name} with ip :: {result.Ip} - SUCCESS"
 
-        };
+            };
 
             return View(message);
         }
@@ -80,53 +92,46 @@ namespace FrontEnd.Controllers
 
         }
 
-
         [Authorize]
         [HttpPost]
         [Route("user/terminal/add")]
-        public async Task<JsonResult> AddDesktop([FromBody] Desktop desktop)
+        public async Task<JsonResult> AddDesktop([FromBody] Terminal terminal)
         {
             string result;
-            Desktop d = desktop;
+            Terminal d = terminal;
             d.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-
             db.Add(d);
-            if (await db.SaveChangesAsync() > 0) {
+            if (await db.SaveChangesAsync() > 0)
+            {
                 result = "{\"result\":\"true\"}";
             }
-            else {
+            else
+            {
                 result = "{\"result\":\"false\"}";
 
             }
-
             return Json(result);
         }
 
         [Authorize]
         [HttpPost]
         [Route("user/terminal/share")]
-        public async Task<JsonResult> ShareDesktop([FromBody]SharedTerminalPackage package)
+        public JsonResult ShareDesktop([FromBody]SharedTerminalPackage package)
         {
             string myId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            Logger.LogError("OBJECT LENGTH " + package.GuestId);
-
-            Logger.LogError("OBJECT");
-            Logger.LogError(JsonSerializer.Serialize(package.Terminals));
-            
-
             if (package.Terminals.Count > 0)
             {
                 package.Terminals.ForEach(value =>
                 {
                     var result = db.Desktops.Where(v => v.UserId == myId).Where(o => o.Name == value.Name).FirstOrDefault();
                     Logger.LogWarning("RESULT" + JsonSerializer.Serialize(result));
-                    if (result != null) {
+                    if (result != null)
+                    {
                         if (value.Access)
                         {
                             result.Shared = package.GuestId;
                             db.SaveChanges();
-                            
+
                         }
                         else
                         {
@@ -138,26 +143,10 @@ namespace FrontEnd.Controllers
                             }
                         }
                     }
-                    
+
                 });
             }
-
-            //Desktop d = desktop;
-            //d.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-
-            //db.Add(d);
-            //if (await db.SaveChangesAsync() > 0)
-            //{
-            //    result = "{\"result\":\"true\"}";
-            //}
-            //else
-            //{
-            //    result = "{\"result\":\"false\"}";
-
-            //}
             string response = "{\"result\":\"true\"}";
-
             return Json(response);
         }
 
@@ -192,8 +181,10 @@ namespace FrontEnd.Controllers
         [Route("user/getname")]
         public JsonResult GetUserName()
         {
-            var us = new {
-                name = User.Identity.Name
+            var us = new
+            {
+                name = User.Identity.Name,
+                userId = User.FindFirst(ClaimTypes.NameIdentifier).Value
             };
             return Json(us);
         }
@@ -205,37 +196,27 @@ namespace FrontEnd.Controllers
             var obj = new
             {
                 UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value
-        };
+            };
+            Logger.LogError("USER ID IN METHOD" + User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            Logger.LogError("GET ID METHOD");
             return Json(obj);
         }
-
 
         [Authorize]
         [HttpPost]
         [Route("user/terminal/update")]
-        public async Task<JsonResult> SetDesktop([FromBody] DesktopWithOldName dswon)
+        public async Task<JsonResult> SetDesktop([FromBody] EditedTerminal dswon)
         {
 
             string result;
-            //JObject jObject = JObject.Parse(data);
-            //string name = data.oldname;
-
-            Logger.LogError(dswon.OldName);
-            //Desktop desktop = data["DesktopObj"].ToObject<Desktop>();
-
-            //string OldName = "Terminal-3";
-            //Logger.LogWarning("OLDNAME:" + OldName);
-            //Logger.LogWarning("Name:" + desktop.Name);
-            //Logger.LogWarning("userName:" + desktop.UserName);
-            //Logger.LogWarning("Password:" + desktop.Password);
-
             string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var d = db.Desktops.Where(value => value.UserId == userId).Where(value => value.Name == dswon.OldName).FirstOrDefault();
-            d.Name = dswon.DesktopObj.Name;
-            d.UserName = dswon.DesktopObj.UserName;
-            d.Ip = dswon.DesktopObj.Ip;
-            d.Sudo = dswon.DesktopObj.Sudo;
-            d.Password = dswon.DesktopObj.Password;
+            d.Name = dswon.TerminalObj.Name;
+            d.UserName = dswon.TerminalObj.UserName;
+            d.Ip = dswon.TerminalObj.Ip;
+            d.Sudo = dswon.TerminalObj.Sudo;
+            d.Password = dswon.TerminalObj.Password;
             if (await db.SaveChangesAsync() > 0)
             {
                 result = "{\"result\":\"true\"}";
@@ -251,25 +232,42 @@ namespace FrontEnd.Controllers
         [Route("user/profile")]
         public ActionResult Profile()
         {
-
             return View("Profile");
         }
 
         [Route("user/profile/get")]
-        public async Task<JsonResult> getUserInfoAsync() {
+        public async Task<JsonResult> GetUserInfoAsync()
+        {
             var user = await this._userManager.FindByIdAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             return Json(JsonSerializer.Serialize(db.UserInfos.Where(p => p.Email == user.Email).FirstOrDefault()));
         }
 
         [Route("user/profile/get/{userId}")]
-        public async Task<JsonResult> GetUserInfoByIdAsync(string userId)
+        public JsonResult GetUserInfoById(string userId)
         {
             return Json(JsonSerializer.Serialize(db.UserInfos.Where(p => p.UserId == userId).FirstOrDefault()));
         }
 
         [HttpPost]
+        [Route("user/terminal/unick")]
+        public JsonResult CheckTerminalNameUnick([FromBody] string terminalName)
+        {
+            var UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var d = db.Desktops.Where(p => p.UserId == UserId).Where(p => p.Name == terminalName).FirstOrDefault();
+            if (d == null)
+            {
+                return Json("{\"result\":\"true\"}");
+            }
+            else
+            {
+                return Json("{\"result\":\"false\"}");
+            }
+
+        }
+
+        [HttpPost]
         [Route("user/profile/set")]
-        public async Task<JsonResult> updateUserInfoAsync([FromBody] UserInfo updatedUser)
+        public async Task<JsonResult> UpdateUserInfoAsync([FromBody] UserInfo updatedUser)
         {
             var user = await this._userManager.FindByIdAsync(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var userInfo = db.UserInfos.Where(value => value.UserId == user.Id).FirstOrDefault();
@@ -282,40 +280,27 @@ namespace FrontEnd.Controllers
         }
         [Route("user/profile/photoUpload")]
         [HttpPost]
-        public async Task<IActionResult> onPhotoUpload(IList<IFormFile> files) {
-            Logger.LogError("FILE UPLOADING");
-            
-            Logger.LogError("URL =" + this._appEnvironment.WebRootPath);
-
+        public async Task<IActionResult> OnPhotoUpload(IList<IFormFile> files)
+        {
             foreach (IFormFile source in files)
             {
-                //string filename = ContentDispositionHeaderValue.Parse(source.ContentDisposition).FileName.Trim('"');
                 string filename = User.FindFirst(ClaimTypes.NameIdentifier).Value.ToString() + ".png";
                 filename = this.EnsureCorrectFilename(filename);
-
                 using (FileStream output = System.IO.File.Create(this.GetPathAndFilename(filename)))
                     await source.CopyToAsync(output);
             }
-
-
-            Logger.LogError("FILE UPLOADING OK");
-
             return Ok();
-            
         }
+
         private string EnsureCorrectFilename(string filename)
         {
             if (filename.Contains("\\"))
                 filename = filename.Substring(filename.LastIndexOf("\\") + 1);
-
             return filename;
         }
         private string GetPathAndFilename(string filename)
         {
-            return this._appEnvironment.WebRootPath + "\\static\\" + filename;
+            return @"C:\Users\Alexander\source\repos\SSHZHAKAR\SSHZHAKAR\wwwroot\static\" + filename;
         }
-
-
-
     }
 }

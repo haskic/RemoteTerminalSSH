@@ -26,7 +26,7 @@ namespace BackEnd.Controllers
             Logger.LogError("I'm in connectSSH");
 
             bool shared = false;
-            Desktop result;
+            Terminal result;
             //string[] ar = { $"SSH CONNECTION FOR USER ID={connectionId} was created." };
 
             //await this.Clients.Client(connectionId).SendAsync("GetResponse", ar);
@@ -59,7 +59,6 @@ namespace BackEnd.Controllers
                     else
                     {
                         string res = $"SSH CONNECTION FOR USER ID={connectionId} wasn't created. Ip or login or password is incorrect";
-
                         await this.Clients.Client(connectionId).SendAsync("GetResponse", res);
                     }
 

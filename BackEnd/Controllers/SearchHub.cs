@@ -16,11 +16,6 @@ namespace BackEnd.Controllers
         {
             db = context;
         }
-        public async Task Send()
-        {
-            string message = "Hello this is SignanR";
-            await this.Clients.All.SendAsync("Send", message);
-        }
         public async Task GetSearchResult(string searchString)
         {
             

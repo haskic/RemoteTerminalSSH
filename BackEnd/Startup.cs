@@ -11,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using WebSocketManager;
-using BackEnd.SocketControllers;
 using Microsoft.EntityFrameworkCore;
 using BackEnd.Data;
 using BackEnd.Controllers;
@@ -49,8 +48,6 @@ namespace BackEnd
             services.AddControllers();
 
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider, ILogger<Program> logger)
         {
             logger.LogWarning("I'm READY");
@@ -60,22 +57,14 @@ namespace BackEnd
                 app.UseDeveloperExceptionPage();
             }
             app.UseWebSockets();
-            //app.MapWebSocketManager("/socket", serviceProvider.GetService<SocketTerminal>());
-
-
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<TerminalHub>("/terminal");
-
                 endpoints.MapHub<SearchHub>("/search");
 
-                //endpoints.MapControllers();
             });
         }
     }

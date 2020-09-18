@@ -7,17 +7,14 @@ using ZModels;
 
 namespace BackEnd.Data
 {
-    public class UserDbContext:DbContext
+    public class UserDbContext : DbContext
     {
-
-        
         public UserDbContext(DbContextOptions<UserDbContext> options) :
             base(options)
         {
-    }
+        }
         public DbSet<Terminal> Desktops { get; set; }
         public DbSet<UserInfo> UserInfos { get; set; }
-
 
     }
 }

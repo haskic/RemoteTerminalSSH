@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29911.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSHZhakar", "SSHZHAKAR\SSHZhakar.csproj", "{781418D9-91A0-4261-B436-D0C479C99743}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SERVER", "SSHZHAKAR\SERVER.csproj", "{781418D9-91A0-4261-B436-D0C479C99743}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackEnd", "BackEnd\BackEnd.csproj", "{FA2DA7D7-6FAB-4FB7-BB10-6235812D7AB4}"
 EndProject
@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSH_USER_CORE", "SSH_USER_C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZModels", "ZModels\ZModels.csproj", "{3C558ED2-F658-475C-BE68-5F674F33E87B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSHZhakar.Tests", "SSHZhakar.Tests\SSHZhakar.Tests.csproj", "{DDD8245F-5584-4BFB-89B5-258F01BADC09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSHZhakar.Tests", "SSHZhakar.Tests\SSHZhakar.Tests.csproj", "{DDD8245F-5584-4BFB-89B5-258F01BADC09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

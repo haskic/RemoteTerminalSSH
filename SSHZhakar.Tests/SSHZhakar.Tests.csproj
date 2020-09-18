@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BackEnd\BackEnd.csproj" />
-    <ProjectReference Include="..\SSHZHAKAR\SSHZhakar.csproj" />
+    <ProjectReference Include="..\SSHZHAKAR\SERVER.csproj" />
     <ProjectReference Include="..\SSH_USER_CORE\SSH_USER_CORE.csproj" />
   </ItemGroup>
 
